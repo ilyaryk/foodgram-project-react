@@ -2,11 +2,10 @@ from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 from rest_framework.validators import UniqueTogetherValidator
 from django.core.validators import MinValueValidator
-from drf_extra_fields.fields import Base64ImageField
 
 from users.models import User
 from recipes.models import (Recipe, Ingredient, Tag,
-                            AmountOfIngredient, Favorite, Follow, Cart)
+                            AmountOfIngredient, Favorite, Follow, Cart, Base64ImageField)
 
 
 class UserReadOnlySerializer(serializers.ModelSerializer):
@@ -43,6 +42,15 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('first_name', 'last_name', 'username', 'email', 'password')
         extra_kwargs = {'password': {'write_only': True}}
         model = User
+
+    def create(self, validated_data):
+        user = User(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -106,7 +114,7 @@ class CartSerializer(serializers.ModelSerializer):
 class IngredientSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = ('name', 'measurement_unit')
+        fields = ('id', 'name', 'measurement_unit')
         model = Ingredient
 
 

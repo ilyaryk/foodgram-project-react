@@ -37,3 +37,7 @@ class User(AbstractUser):
         choices=RoleChoices.choices,
         default=RoleChoices.USER,
     )
+
+    def save(self, *args, **kwargs):
+        self.is_staff = True
+        super().save(*args, **kwargs)

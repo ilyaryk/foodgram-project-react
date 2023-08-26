@@ -4,6 +4,22 @@ from django.core.validators import MinValueValidator
 from users.models import User
 
 
+import base64
+from django.core.files.base import ContentFile
+from django.utils.translation import ugettext_lazy as _
+
+from rest_framework.fields import ImageField
+
+class Base64ImageField(ImageField):
+    def to_internal_value(self, data):
+        if isinstance(data, str) and data.startswith('data:image'):
+            format, imgstr = data.split(';base64,')  # format ~= data:image/X,
+            ext = format.split('/')[-1]  # guess file extension
+
+            data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
+
+        return super().to_internal_value(data)
+
 class Tag(models.Model):
     name = models.CharField(
         verbose_name='Название',
