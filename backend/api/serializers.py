@@ -5,7 +5,8 @@ from django.core.validators import MinValueValidator
 
 from users.models import User
 from recipes.models import (Recipe, Ingredient, Tag,
-                            AmountOfIngredient, Favorite, Follow, Cart, Base64ImageField)
+                            AmountOfIngredient, Favorite, Follow, Cart,
+                            Base64ImageField)
 
 
 class UserReadOnlySerializer(serializers.ModelSerializer):
