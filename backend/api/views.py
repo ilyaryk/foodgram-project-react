@@ -129,9 +129,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 recipe__in=list(request.user.buyer.values_list(
                     'recipe',
                     flat=True)),)).select_related('recipes').values(
-                    'ingredient__name',
-                    'ingredient__measurement_unit',).annotate(
-                        summa=Sum('amount'))
+                      'ingredient__name',
+                      'ingredient__measurement_unit',).annotate(
+                          summa=Sum('amount'))
         for obj in objs:
             line_out = (str(obj['ingredient__name'])
                         + str(obj['ingredient__measurement_unit'])
