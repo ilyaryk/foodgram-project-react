@@ -8,6 +8,7 @@ from rest_framework.fields import ImageField
 
 from users.models import User
 
+
 class Base64ImageField(ImageField):
     def to_internal_value(self, data):
         if isinstance(data, str) and data.startswith('data:image'):
@@ -17,6 +18,7 @@ class Base64ImageField(ImageField):
             data = ContentFile(base64.b64decode(imgstr), name='temp.' + ext)
 
         return super().to_internal_value(data)
+
 
 class Tag(models.Model):
     name = models.CharField(
