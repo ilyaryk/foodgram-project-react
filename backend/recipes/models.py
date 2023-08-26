@@ -1,14 +1,12 @@
+import base64
+
 from django.db import models
 from django.core.validators import MinValueValidator
-
-from users.models import User
-
-
-import base64
 from django.core.files.base import ContentFile
 from django.utils.translation import ugettext_lazy as _
-
 from rest_framework.fields import ImageField
+
+from users.models import User
 
 class Base64ImageField(ImageField):
     def to_internal_value(self, data):
